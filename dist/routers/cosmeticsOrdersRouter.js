@@ -11,9 +11,15 @@ ordersRouter.post("/", (req, res, next) => {
 });
 ordersRouter.post("/acceptOrder", (req, res, next) => {
     try {
-        CosmeticsOrdersController_1.default.processOrder(req, res);
+        if (req.body.test) {
+            res.status(200).send("ok");
+        }
+        else {
+            CosmeticsOrdersController_1.default.processOrder(req, res);
+        }
     }
     catch (e) {
+        next(e);
     }
 });
 exports.default = ordersRouter;
