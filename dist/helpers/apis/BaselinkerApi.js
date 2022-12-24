@@ -19,7 +19,7 @@ const node_fetch_1 = __importDefault(require("node-fetch"));
 dotenv_1.default.config();
 class BaselinkerApiController {
     constructor() {
-        this.token = process.env.BASELINKERTOKEN ? process.env.BASELINKERTOKEN : "undefined";
+        this.token = process.env.BASELINKERTOKEN ? process.env.BASELINKERTOKEN : "2719-19147-C8934UFTA61DAUBMXNWZFJJPWUUGWFLECW5UGCJ9WIRROLHZPIS9Q6Y5X07FDUS5";
     }
     addNewOrder(body) {
         return __awaiter(this, void 0, void 0, function* () {
