@@ -7,6 +7,7 @@ function convertOrderParams(body) {
     const name = `${body.name} ${body.surname}`;
     let newOrderData = {
         currency: getCurrency(body),
+        custom_source_id: Number.parseInt(body.payment.orderid),
         custom_extra_fields: [],
         date_add: new Date().getTime(),
         delivery_address: "adress should be added to a form",
@@ -24,7 +25,7 @@ function convertOrderParams(body) {
         delivery_postcode: "postcode should be added to a form",
         delivery_price: 0,
         email: "email should be added to a form",
-        extra_field_1: "",
+        extra_field_1: body.payment.orderid,
         extra_field_2: "",
         invoice_address: "adress should be added to a form",
         invoice_city: body.CITY,
@@ -38,7 +39,7 @@ function convertOrderParams(body) {
         payment_method: body.paymentsystem,
         payment_method_cod: body.paymentsystem === "cash" ? 1 : 0,
         products: generateProducts(body),
-        admin_comments: `orderId - ${body.payment.orderid}`,
+        admin_comments: "",
         user_login: "",
         want_invoice: 0,
         user_comments: ""
@@ -122,12 +123,3 @@ function generateAdditionalProductsArray(deliveryOptions) {
     });
     return products;
 }
-// function checkPrices(productsArray: any[][], amount: number) {
-//     const priceFromArray = productsArray.reduce( (prev, cur) => prev + cur[1] as number, 0);
-//     if(priceFromArray !== amount) {
-//         throw new Error();
-//     }
-// }
-/*
-    {"orderid":"2002769111","products":["Wygładzający &quot;gorący&quot; krem (hotcream)=375","Gorący peeling 129zl=129","Samoopalacz 129zl=129","Peeling do twarzy 79zl=79"],"amount":"817.3","subtotal":"712","delivery":"ubezpieczenie,niespodzianka,gwarancja,express,pobranie","delivery_price":105.3,"delivery_fio":"","delivery_address":"","delivery_comment":""}
-*/

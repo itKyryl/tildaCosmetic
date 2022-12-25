@@ -17,7 +17,6 @@ class CosmeticsOrdersController {
     processOrder(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const orderWasAdded = yield BaselinkerApi_1.default.addNewOrder(req.body);
-            // console.log(JSON.stringify(req.body))
             if (orderWasAdded) {
                 res.status(200).send("Order was added");
             }
@@ -26,61 +25,21 @@ class CosmeticsOrdersController {
             }
         });
     }
+    processPayment(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const body = req.body;
+            if (body.data.object.captured) {
+                const capturedAmount = Number.parseFloat(body.data.object.amount_captured) / 100;
+                const date = new Date();
+                date.setDate(date.getDate() - 1);
+                const utcTime = Math.trunc(date.getTime() / 1000);
+                const lookingOrder = yield BaselinkerApi_1.default.getOrderByOrderIdExtraField(utcTime, body.data.object.metadata.invoiceid);
+                const success = yield BaselinkerApi_1.default.updateOrderPayment(lookingOrder.order_id, capturedAmount);
+                if (success) {
+                    res.status(200).send("Payment was uppdated");
+                }
+            }
+        });
+    }
 }
 exports.default = new CosmeticsOrdersController();
-/*
-{
-  "name": "Test",
-  "surname": "Test",
-  "CITY": "Cracow",
-  "phone": "+48 (881) 719-668",
-  "spices": "Peeling do twarzy 79zl",
-  "deliveryOptions": "ubezpieczenie,niespodzianka,gwarancja,express,pobranie=105.3",
-  "paymentsystem": "cash",
-  "payment": {
-    "orderid": "2040504151",
-    "products": [
-      {
-        "name": "Samoopalacz",
-        "quantity": 2,
-        "amount": 1180,
-        "price": "590",
-        "sku": "tno",
-        "options": [
-          {
-            "option": "Pojemność",
-            "variant": "100"
-          }
-        ]
-      },
-      {
-        "name": "Gorący peeling 129zl",
-        "quantity": 1,
-        "amount": 129,
-        "price": "129"
-      },
-      {
-        "name": "Samoopalacz 129zl",
-        "quantity": 1,
-        "amount": 129,
-        "price": "129"
-      },
-      {
-        "name": "Peeling do twarzy 79zl",
-        "quantity": 1,
-        "amount": 79,
-        "price": "79"
-      }
-    ],
-    "amount": "1622.3",
-    "subtotal": "1517",
-    "delivery": "ubezpieczenie,niespodzianka,gwarancja,express,pobranie",
-    "delivery_price": 105.3,
-    "delivery_fio": "",
-    "delivery_address": "",
-    "delivery_comment": ""
-  },
-  "formid": "form526328071",
-  "formname": "Cart"
-}
-*/ 
