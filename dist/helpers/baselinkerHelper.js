@@ -4,14 +4,14 @@ exports.convertOrderParams = void 0;
 const additionalProducts_1 = require("../public/db/additionalProducts");
 function convertOrderParams(body) {
     const deliveryOptions = body.deliveryOptions.split("=")[0].split(",");
-    const name = `${body.name} ${body.surname}`;
+    const name = `${body.firstName} ${body.surname}`;
     let newOrderData = {
         currency: getCurrency(body),
         custom_source_id: Number.parseInt(body.payment.orderid),
         custom_extra_fields: [],
         date_add: new Date().getTime(),
-        delivery_address: "adress should be added to a form",
-        delivery_city: body.CITY,
+        delivery_address: body.adres,
+        delivery_city: body.city,
         delivery_company: "",
         phone: body.phone,
         delivery_country_code: getCountryCode(body),
@@ -22,18 +22,18 @@ function convertOrderParams(body) {
         delivery_point_id: "",
         delivery_point_name: "",
         delivery_point_postcode: "",
-        delivery_postcode: "postcode should be added to a form",
+        delivery_postcode: body.code,
         delivery_price: 0,
-        email: "email should be added to a form",
+        email: body.email,
         extra_field_1: body.payment.orderid,
         extra_field_2: "",
-        invoice_address: "adress should be added to a form",
-        invoice_city: body.CITY,
+        invoice_address: body.adres,
+        invoice_city: body.city,
         invoice_company: "",
         invoice_country_code: getCountryCode(body),
         invoice_fullname: name,
         invoice_nip: "",
-        invoice_postcode: "postcode should be added to a form",
+        invoice_postcode: body.code,
         order_status_id: 166416,
         paid: 0,
         payment_method: body.paymentsystem,
