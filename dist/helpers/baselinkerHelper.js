@@ -51,6 +51,8 @@ function getCurrency(params) {
     switch (params.formid) {
         case "form526328071":
             return "PLN";
+        case "form526328230":
+            return "HUF";
         default:
             throw new Error(`Error! Error with order ${params}.\n Please add validation to ${getCurrency.name} function with ${params.formid}`);
     }
@@ -59,6 +61,8 @@ function getCountryCode(params) {
     switch (params.formid) {
         case "form526328071":
             return "PL";
+        case "form526328230":
+            return "HU";
         default:
             throw new Error(`Error! Error with order ${params}.\n Please add validation to ${getCurrency.name} function with ${params.formid}`);
     }
